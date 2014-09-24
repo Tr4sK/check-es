@@ -9,10 +9,13 @@
 #     -p (optional): port; default 9200
 #     -h / --help (optional): help
 #
+#   Dependencies: ipaddress
 
 import httplib
 import json
 import sys
+import socket
+import ipaddress
 
 COMPARISON_TYPE = "str"
 COMPARISON_OP   = "=="
@@ -22,7 +25,46 @@ STATUS_CHECK    = ""
 STATUS_WARN     = ""
 STATUS_CRIT     = ""
 
+def check_es_help():
+    print("Usage: check_es -x <status> -w <warn> -c <crit> [options]")
+    print("Options:")
+    print("\t-x: The status to check; supported values are: status, initializing_shards, number_of_data_nodes, number_of_nodes")
+    print("\t-w: warning value (dependent upon status).")
+    print("\t-c: critical value (dependent upon status).")
+    print("\t-C: Comparison type: <,<=,>,>=,!=,== . This is ignored if -x is status.")
+    print("\t-a: Elasticsearch server to connect to. Default localhost.")
+    print("\t-p: Elasticsearch server HTTP port. Default 9200.")
+    print("\t-h / --help: Prints out this help document.")
+    print("Note: -x, -w, -c are required.")
 
+def init_data():
+    http_conn = httplib.HTTPConnection(IP_HOSTNAME, IP_PORT)
+    http_conn.request("GET", "/_cluster/health")
+    resp = json.loads(http_conn.getresponse().read())
+    
+    return resp
+
+def check_status(health_resp):
+    if health_resp["status"] == STATUS_WARN:
+        sys.exit(1)
+    elif health_resp["status"] == STATUS_CRIT:
+        sys.exit(2)
+
+def check_initializing_shards():
+    pass
+
+def check_number_of_data_nodes():
+    pass
+
+def check_number_of_nodes():
+    pass
+
+# help
+if "--help" in sys.argv or "-h" in sys.argv:
+    check_es_help()
+    sys.exit(0)
+
+# setup check
 if "-x" not in sys.argv or "-w" not in sys.argv or "-c" not in sys.argv:
     print("-x, -w, and -c are required")
     sys.exit(1)
@@ -48,32 +90,82 @@ else:
 
     # setup -w
     try:
-        x_val = None
-        if COMPARISON_TYPE == "str" and STATUS_CHECK == "status":
+        if STATUS_CHECK == "status":
             x_val = str(tmp_args["-w"])
             
             if tmp_args["-w"] != "red" and tmp_args["-w"] != "yellow":
                 print("Invalid warning for %s." % (STATUS_CHECK))
                 sys.exit(1)
-        elif COMPARISON_TYPE == "int":
-            x_val = int(tmp_args["-w"])
-            STATUS_WARN = x_val
+            else:
+                STATUS_WARN = x_val
     except Exception, e:
         print(e)
 
-    print(x_val)
-
-    STATUS_CHECK = tmp_args["-x"]
-    STATUS_WARN  = tmp_args["-w"]
-    STATUS_CRIT  = tmp_args["-c"]
-
-    print(STATUS_CHECK)
-    print(STATUS_WARN)
-    print(STATUS_CRIT)
+    # setup -c
+    try:
+        if STATUS_CHECK == "status":
+            x_val = str(tmp_args["-c"])
+    
+            if tmp_args["-c"] != "red" and tmp_args["-c"] != "yellow":
+                print("Invalid critical for %s." % (STATUS_CHECK))
+                sys.exit(1)
+            else:
+                if tmp_args["-w"] == tmp_args["-c"]:
+                    print("You cant warn and crit at the same time!")
+                    sys.exit(1)
+                else:
+                    STATUS_CRIT = x_val
+    except Exception, e:
+        print(e)
     
 
-#http_conn = httplib.HTTPConnection("localhost", 9200)
-#http_conn.request("GET", "/_cluster/health")
-#resp = json.loads(http_conn.getresponse().read())
-#
-#print(resp)
+    # setup -C
+    if "-C" in tmp_args:
+        if tmp_args["-C"] == "<=" or tmp_args["-C"] == "<" or tmp_args["-C"] == ">" or tmp_args["-C"] == ">=" or tmp_args["-C"] == "==" or tmp_args["-C"] == "!=":
+            COMPARISON_OP = tmp_args["-C"]
+        else:
+            print("%s is an invalid comparison operator; only >,>=,<,<=,==,!= are supported")
+            sys.exit(1)
+
+    # setup -a
+    if "-a" in tmp_args:
+        bad_host_count = 0
+        
+        # check if IP
+        try:
+            ipaddress.ip_address(tmp_args["-a"].decode("utf-8"))
+        except ValueError:
+            bad_host_count += 1
+        
+        # check if host
+        try:
+            socket.gethostbyname(tmp_args["-a"])
+        except socket.gaierror:
+            bad_host_count += 1
+
+        if bad_host_count > 1:
+            print("Invalid IP/hostname %s" % tmp_args["-a"])
+            sys.exit(1)
+        
+        IP_HOSTNAME = tmp_args["-a"]
+
+    # setup -p
+    if "-p" in tmp_args:
+        try:
+            int(tmp_args["-p"])
+            
+            if int(tmp_args["-p"]) < 1 or int(tmp_args["-p"]) > 65535:
+                print("%s is not a valid port." % tmp_args["-p"])
+                sys.exit(1)
+
+            IP_PORT = int(tmp_args["-p"])
+        except ValueError:
+            print("%s is not a valid port." % tmp_args["-p"])
+            sys.exit(1)
+
+print(IP_HOSTNAME)
+print(IP_PORT)
+print(COMPARISON_OP)
+print(STATUS_WARN)
+print(STATUS_CRIT)
+print(STATUS_CHECK)
