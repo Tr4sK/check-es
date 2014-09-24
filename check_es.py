@@ -44,14 +44,58 @@ def init_data():
     
     return resp
 
+def start(health_resp):
+    if STATUS_CHECK == "status":
+        check_status(health_resp)
+    elif STATUS_CHECK == "initializing_shards":
+        check_initializing_shards(health_resp)
+    elif STATUS_CHECK == "number_of_data_nodes":
+        check_number_of_data_nodes(health_resp)
+    elif STATUS_CHECK == "number_of_nodes":
+        check_number_of_nodes(health_resp)
+
 def check_status(health_resp):
     if health_resp["status"] == STATUS_WARN:
         sys.exit(1)
     elif health_resp["status"] == STATUS_CRIT:
         sys.exit(2)
 
-def check_initializing_shards():
-    pass
+    sys.exit(0)
+
+def check_initializing_shards(health_resp):
+    print("IN CHECKER")
+    print(health_resp["initializing_shards"])
+    print(int(STATUS_WARN))
+    if COMPARISON_OP == "==":
+        if health_resp["initializing_shards"] == int(STATUS_WARN):
+            sys.exit(1)
+        elif health_resp["initializing_shards"] == int(STATUS_CRIT):
+            sys.exit(2)
+    elif COMPARISON_OP == "!=":
+        if health_resp["initializing_shards"] != int(STATUS_WARN):
+            sys.exit(1)
+        elif health_resp["initializing_shards"] != int(STATUS_CRIT):
+            sys.exit(2)
+    elif COMPARISON_OP == "<=":
+        if health_resp["initializing_shards"] <= int(STATUS_WARN):
+            sys.exit(1)
+        elif health_resp["initializing_shards"] <= int(STATUS_CRIT):
+            sys.exit(2)
+    elif COMPARISON_OP == "<":
+        if health_resp["initializing_shards"] < int(STATUS_WARN):
+            sys.exit(1)
+        elif health_resp["initializing_shards"] < int(STATUS_CRIT):
+            sys.exit(2)
+    elif COMPARISON_OP == ">":
+        if health_resp["initializing_shards"] > int(STATUS_WARN):
+            sys.exit(1)
+        elif health_resp["initializing_shards"] > int(STATUS_CRIT):
+            sys.exit(2)
+    elif COMPARISON_OP == ">=":
+        if health_resp["initializing_shards"] >= int(STATUS_WARN):
+            sys.exit(1)
+        elif health_resp["initializing_shards"] >= int(STATUS_CRIT):
+            sys.exit(2)
 
 def check_number_of_data_nodes():
     pass
@@ -98,6 +142,12 @@ else:
                 sys.exit(1)
             else:
                 STATUS_WARN = x_val
+        elif STATUS_CHECK == "initializing_shards":
+            pass
+        elif STATUS_CHECK == "number_of_data_nodes":
+            pass
+        elif STATUS_CHECK == "number_of_nodes":
+            pass
     except Exception, e:
         print(e)
 
@@ -162,6 +212,9 @@ else:
         except ValueError:
             print("%s is not a valid port." % tmp_args["-p"])
             sys.exit(1)
+
+resp = init_data()
+start(resp)
 
 print(IP_HOSTNAME)
 print(IP_PORT)
