@@ -1,4 +1,4 @@
-#
+#!/usr/bin/python
 # check_es.py
 #   Switches:
 #     -x (required): status; status, number_of_nodes, etc.
@@ -67,60 +67,60 @@ def check_status(health_resp):
 
 def int_checker(health_resp):
     if COMPARISON_OP == "==":
-        if health_resp["initializing_shards"] == int(STATUS_CRIT):
+        if health_resp[STATUS_CHECK] == int(STATUS_CRIT):
             print("CRITICAL: %s is == %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] == int(STATUS_WARN):
+        elif health_resp[STATUS_CHECK] == int(STATUS_WARN):
             print("WARNING: %s is == %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
         print("OK: %s is ok" % STATUS_CHECK)
         sys.exit(0)
     elif COMPARISON_OP == "!=":
-        if health_resp["initializing_shards"] != int(STATUS_CRIT):
+        if health_resp[STATUS_CHECK] != int(STATUS_CRIT):
             print("CRITICAL: %s is != %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] != int(STATUS_WARN):
+        elif health_resp[STATUS_CHECK] != int(STATUS_WARN):
             print("WARNING: %s is != %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
         print("OK: %s is ok" % STATUS_CHECK)
         sys.exit(0)
     elif COMPARISON_OP == "<=":
-        if health_resp["initializing_shards"] <= int(STATUS_CRIT):
+        if health_resp[STATUS_CHECK] <= int(STATUS_CRIT):
             print("CRITICAL: %s is <= %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] <= int(STATUS_WARN):
+        elif health_resp[STATUS_CHECK] <= int(STATUS_WARN):
             print("WARNING: %s is <= %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
         print("OK: %s is ok" % STATUS_CHECK)
         sys.exit(0)
     elif COMPARISON_OP == "<":
-        if health_resp["initializing_shards"] < int(STATUS_CRIT):
+        if health_resp[STATUS_CHECK] < int(STATUS_CRIT):
             print("CRITICAL: %s is < %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] < int(STATUS_WARN):
+        elif health_resp[STATUS_CHECK] < int(STATUS_WARN):
             print("WARNING: %s is < %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
         print("OK: %s is ok" % STATUS_CHECK)
         sys.exit(0)
     elif COMPARISON_OP == ">":
-        if health_resp["initializing_shards"] > int(STATUS_CRIT):
+        if health_resp[STATUS_CHECK] > int(STATUS_CRIT):
             print("CRITICAL: %s is > %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] > int(STATUS_WARN):
+        elif health_resp[STATUS_CHECK] > int(STATUS_WARN):
             print("WARNING: %s is > %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
         
         print("OK: %s is ok" % STATUS_CHECK)
         sys.exit(0)
     elif COMPARISON_OP == ">=":
-        if health_resp["initializing_shards"] >= int(STATUS_CRIT):
+        if health_resp[STATUS_CHECK] >= int(STATUS_CRIT):
             print("CRITICAL: %s is >= %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] >= int(STATUS_WARN):
+        elif health_resp[STATUS_CHECK] >= int(STATUS_WARN):
             print("WARNING: %s is >= %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
