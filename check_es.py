@@ -38,11 +38,15 @@ def check_es_help():
     print("Note: -x, -w, -c are required.")
 
 def init_data():
-    http_conn = httplib.HTTPConnection(IP_HOSTNAME, IP_PORT)
-    http_conn.request("GET", "/_cluster/health")
-    resp = json.loads(http_conn.getresponse().read())
+    try:
+      http_conn = httplib.HTTPConnection(IP_HOSTNAME, IP_PORT)
+      http_conn.request("GET", "/_cluster/health")
+      resp = json.loads(http_conn.getresponse().read())
     
-    return resp
+      return resp
+    except socket.error:
+      print("CRITICAL: %s is not responding." % IP_HOSTNAME)
+      sys.exit(2)
 
 def start(health_resp):
     if STATUS_CHECK == "status":
@@ -306,9 +310,9 @@ else:
 resp = init_data()
 start(resp)
 
-print("Hostname: %s" % IP_HOSTNAME)
-print("Port: %s" % IP_PORT)
-print("Operation: %s" % COMPARISON_OP)
-print("Warning: %s" % STATUS_WARN)
-print("Critical: %s" % STATUS_CRIT)
-print("Status: %s" % STATUS_CHECK)
+#print("Hostname: %s" % IP_HOSTNAME)
+#print("Port: %s" % IP_PORT)
+#print("Operation: %s" % COMPARISON_OP)
+#print("Warning: %s" % STATUS_WARN)
+#print("Critical: %s" % STATUS_CRIT)
+#print("Status: %s" % STATUS_CHECK)
