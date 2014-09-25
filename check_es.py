@@ -48,60 +48,84 @@ def start(health_resp):
     if STATUS_CHECK == "status":
         check_status(health_resp)
     elif STATUS_CHECK == "initializing_shards":
-        check_initializing_shards(health_resp)
+        int_checker(health_resp)
     elif STATUS_CHECK == "number_of_data_nodes":
-        check_number_of_data_nodes(health_resp)
+        int_checker(health_resp)
     elif STATUS_CHECK == "number_of_nodes":
-        check_number_of_nodes(health_resp)
+        int_checker(health_resp)
 
 def check_status(health_resp):
     if health_resp["status"] == STATUS_WARN:
+        print("WARNING: %s has failed with %s." % (STATUS_CHECK, STATUS_WARN))
         sys.exit(1)
     elif health_resp["status"] == STATUS_CRIT:
+        print("CRITICAL: %s has failed with %s." % (STATUS_CHECK, STATUS_WARN))
         sys.exit(2)
 
+    print("OK: %s is ok." % STATUS_CHECK)
     sys.exit(0)
 
-def check_initializing_shards(health_resp):
-    print("IN CHECKER")
-    print(health_resp["initializing_shards"])
-    print(int(STATUS_WARN))
+def int_checker(health_resp):
     if COMPARISON_OP == "==":
-        if health_resp["initializing_shards"] == int(STATUS_WARN):
+        if health_resp["initializing_shards"] == int(STATUS_CRIT):
+            print("CRITICAL: %s is == %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] == int(STATUS_CRIT):
+        elif health_resp["initializing_shards"] == int(STATUS_WARN):
+            print("WARNING: %s is == %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
+
+        print("OK: %s is ok" % STATUS_CHECK)
+        sys.exit(0)
     elif COMPARISON_OP == "!=":
-        if health_resp["initializing_shards"] != int(STATUS_WARN):
+        if health_resp["initializing_shards"] != int(STATUS_CRIT):
+            print("CRITICAL: %s is != %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] != int(STATUS_CRIT):
+        elif health_resp["initializing_shards"] != int(STATUS_WARN):
+            print("WARNING: %s is != %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
+
+        print("OK: %s is ok" % STATUS_CHECK)
+        sys.exit(0)
     elif COMPARISON_OP == "<=":
-        if health_resp["initializing_shards"] <= int(STATUS_WARN):
+        if health_resp["initializing_shards"] <= int(STATUS_CRIT):
+            print("CRITICAL: %s is <= %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] <= int(STATUS_CRIT):
+        elif health_resp["initializing_shards"] <= int(STATUS_WARN):
+            print("WARNING: %s is <= %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
+
+        print("OK: %s is ok" % STATUS_CHECK)
+        sys.exit(0)
     elif COMPARISON_OP == "<":
-        if health_resp["initializing_shards"] < int(STATUS_WARN):
+        if health_resp["initializing_shards"] < int(STATUS_CRIT):
+            print("CRITICAL: %s is < %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] < int(STATUS_CRIT):
+        elif health_resp["initializing_shards"] < int(STATUS_WARN):
+            print("WARNING: %s is < %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
+
+        print("OK: %s is ok" % STATUS_CHECK)
+        sys.exit(0)
     elif COMPARISON_OP == ">":
-        if health_resp["initializing_shards"] > int(STATUS_WARN):
+        if health_resp["initializing_shards"] > int(STATUS_CRIT):
+            print("CRITICAL: %s is > %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] > int(STATUS_CRIT):
+        elif health_resp["initializing_shards"] > int(STATUS_WARN):
+            print("WARNING: %s is > %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
+        
+        print("OK: %s is ok" % STATUS_CHECK)
+        sys.exit(0)
     elif COMPARISON_OP == ">=":
-        if health_resp["initializing_shards"] >= int(STATUS_WARN):
+        if health_resp["initializing_shards"] >= int(STATUS_CRIT):
+            print("CRITICAL: %s is >= %s" % (STATUS_CHECK, STATUS_CRIT))
             sys.exit(1)
-        elif health_resp["initializing_shards"] >= int(STATUS_CRIT):
+        elif health_resp["initializing_shards"] >= int(STATUS_WARN):
+            print("WARNING: %s is >= %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
-def check_number_of_data_nodes():
-    pass
-
-def check_number_of_nodes():
-    pass
+        print("OK: %s is ok" % STATUS_CHECK)
+        sys.exit(0)
 
 # help
 if "--help" in sys.argv or "-h" in sys.argv:
@@ -143,11 +167,41 @@ else:
             else:
                 STATUS_WARN = x_val
         elif STATUS_CHECK == "initializing_shards":
-            pass
+            try:
+                x_val = int(tmp_args["-w"])
+
+                if x_val < 0:
+                    print("Negative values? Really?")
+                    sys.exit(1)
+                else:
+                    STATUS_WARN = x_val
+            except ValueError:
+                print("%s is not a valid." % tmp_args["-w"])
+                sys.exit(1)
         elif STATUS_CHECK == "number_of_data_nodes":
-            pass
+            try:
+                x_val = int(tmp_args["-w"])
+
+                if x_val < 0:
+                    print("Negative values? Really?")
+                    sys.exit(1)
+                else:
+                    STATUS_WARN = x_val
+            except ValueError:
+                print("%s is not a valid." % tmp_args["-w"])
+                sys.exit(1)
         elif STATUS_CHECK == "number_of_nodes":
-            pass
+            try:
+                x_val = int(tmp_args["-w"])
+
+                if x_val < 0:
+                    print("Negative values? Really?")
+                    sys.exit(1)
+                else:
+                    STATUS_WARN = x_val
+            except ValueError:
+                print("%s is not a valid." % tmp_args["-w"])
+                sys.exit(1)
     except Exception, e:
         print(e)
 
@@ -165,6 +219,42 @@ else:
                     sys.exit(1)
                 else:
                     STATUS_CRIT = x_val
+        elif STATUS_CHECK == "initializing_shards":
+            try:
+                x_val = int(tmp_args["-c"])
+
+                if x_val < 0:
+                    print("Negative values? Really?")
+                    sys.exit(1)
+                else:
+                    STATUS_CRIT = x_val
+            except ValueError:
+                print("%s is not a valid." % tmp_args["-c"])
+                sys.exit(1)
+        elif STATUS_CHECK == "number_of_data_nodes":
+            try:
+                x_val = int(tmp_args["-c"])
+
+                if x_val < 0:
+                    print("Negative values? Really?")
+                    sys.exit(1)
+                else:
+                    STATUS_CRIT = x_val
+            except ValueError:
+                print("%s is not a valid." % tmp_args["-c"])
+                sys.exit(1)
+        elif STATUS_CHECK == "number_of_nodes":
+            try:
+                x_val = int(tmp_args["-c"])
+
+                if x_val < 0:
+                    print("Negative values? Really?")
+                    sys.exit(1)
+                else:
+                    STATUS_CRIT = x_val
+            except ValueError:
+                print("%s is not a valid." % tmp_args["-c"])
+                sys.exit(1)
     except Exception, e:
         print(e)
     
@@ -216,9 +306,9 @@ else:
 resp = init_data()
 start(resp)
 
-print(IP_HOSTNAME)
-print(IP_PORT)
-print(COMPARISON_OP)
-print(STATUS_WARN)
-print(STATUS_CRIT)
-print(STATUS_CHECK)
+print("Hostname: %s" % IP_HOSTNAME)
+print("Port: %s" % IP_PORT)
+print("Operation: %s" % COMPARISON_OP)
+print("Warning: %s" % STATUS_WARN)
+print("Critical: %s" % STATUS_CRIT)
+print("Status: %s" % STATUS_CHECK)
