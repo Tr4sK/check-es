@@ -4,7 +4,7 @@ setup(
     name="check_es",
     version="1.0",
     license="GPLv3",
-    description="Elasticsearch check tool",
+    description="Elasticsearch check tool for Nagios and ZenOSS",
     author="Josten Landtroop",
     author_email="j@no-io.net",
     maintainer="Josten Landtroop",
