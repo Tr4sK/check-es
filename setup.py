@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="check_es",
+    name="check-es",
     version="1.0",
     license="GPLv3",
     description="Elasticsearch check tool for Nagios and ZenOSS",

@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# check_es.py (v1.0)
+# check-es.py (v1.0)
 #   Switches:
 #     -x (required): status; status, number_of_nodes, etc.
 #     -w (required): warning value
@@ -43,7 +43,7 @@ STATUS_WARN     = ""
 STATUS_CRIT     = ""
 
 def check_es_help():
-    print("Usage: check_es -x <status> -w <warn> -c <crit> [options]")
+    print("Usage: check-es -x <status> -w <warn> -c <crit> [options]")
     print("Options:")
     print("\t-x: The status to check; supported values are: status, initializing_shards, number_of_data_nodes, number_of_nodes")
     print("\t-w: warning value (dependent upon status).")
