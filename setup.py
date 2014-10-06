@@ -11,6 +11,6 @@ setup(
     download_url="https://bitbucket.org/josten/check_es",
     url="https://bitbucket.org/josten/check_es",
     packages= find_packages(),
-    scripts = ["check_es"],
+    scripts = ["check-es"],
     install_requires=["ipaddress"]
     )
