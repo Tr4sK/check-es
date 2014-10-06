@@ -1,4 +1,4 @@
-ldapslap
+check_es
 ========
 Nagios check for Elasticsearch; should work with any monitoring tools that support the nagios NRPE check "API". I have tested it and it works fine with ZenOSS.
 
