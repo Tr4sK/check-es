@@ -1,4 +1,7 @@
-from setuptools import setup, find_packages
+try:
+    from setuptools import setup, find_packages
+except ImportException:
+    from distutils.core import setup
 
 setup(
     name="check-es",
