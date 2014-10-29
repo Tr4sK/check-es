@@ -26,7 +26,7 @@ Installation
 Switches
 ========
 * `check-es --help` for a complete list of switches.
-* `-x` is the status to check; supported values are: status, initializing_shards, number_of_data_nodes, number_of_nodes.
+* `-x` is the status to check; supported values are: status, initializing_shards, number_of_data_nodes, number_of_nodes, heap_used_percent.
 * `-w` is the warning value.
 * `-c` is the critical value.
 * `-C` is the comparison type such as `<=`, `<`, `>`, `>=`, `==`, `!=`.
