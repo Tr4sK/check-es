@@ -54,7 +54,7 @@ def check_es_help():
     print("\t-p: Elasticsearch server HTTP port. Default 9200.")
     print("\t-h / --help: Prints out this help document.")
     print("Note: -x, -w, -c are required.")
-    print("Version: 1.1")
+    print("Version: 1.1.1")
 
 def init_data():
     try:
@@ -62,8 +62,6 @@ def init_data():
       http_conn.request("GET", "/_cluster/health")
       health_data = json.loads(http_conn.getresponse().read())
     
-
-      print(NODE_HOSTNAME)
       http_conn.request("GET", "/_nodes/%s/stats/jvm" % NODE_HOSTNAME)
       node_data = json.loads(http_conn.getresponse().read())
 
