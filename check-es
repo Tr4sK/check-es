@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# check-es.py (v1.1)
+# check-es.py (v1.1.1)
 #   Switches:
 #     -x (required): status; status, number_of_nodes, etc.
 #     -w (required): warning value
@@ -41,7 +41,7 @@ IP_PORT         = 9200
 STATUS_CHECK    = ""
 STATUS_WARN     = ""
 STATUS_CRIT     = ""
-NODE_HOSTNAME   = socket.gethostname()
+NODE_HOSTNAME   = "_local"
 
 def check_es_help():
     print("Usage: check-es -x <status> -w <warn> -c <crit> [options]")
@@ -62,6 +62,8 @@ def init_data():
       http_conn.request("GET", "/_cluster/health")
       health_data = json.loads(http_conn.getresponse().read())
     
+
+      print(NODE_HOSTNAME)
       http_conn.request("GET", "/_nodes/%s/stats/jvm" % NODE_HOSTNAME)
       node_data = json.loads(http_conn.getresponse().read())
 
@@ -101,7 +103,7 @@ def check_status(value):
         print("CRITICAL: %s has failed with %s." % (STATUS_CHECK, STATUS_WARN))
         sys.exit(2)
 
-    print("OK: %s is ok." % STATUS_CHECK)
+    print("OK: %s is ok: %s" % (STATUS_CHECK,value))
     sys.exit(0)
 
 def int_checker(value):
@@ -113,7 +115,7 @@ def int_checker(value):
             print("WARNING: %s is == %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
-        print("OK: %s is ok" % STATUS_CHECK)
+        print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == "!=":
         if value != int(STATUS_CRIT):
@@ -123,7 +125,7 @@ def int_checker(value):
             print("WARNING: %s is != %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
-        print("OK: %s is ok" % STATUS_CHECK)
+        print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == "<=":
         if value <= int(STATUS_CRIT):
@@ -133,7 +135,7 @@ def int_checker(value):
             print("WARNING: %s is <= %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
-        print("OK: %s is ok" % STATUS_CHECK)
+        print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == "<":
         if value < int(STATUS_CRIT):
@@ -143,7 +145,7 @@ def int_checker(value):
             print("WARNING: %s is < %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
-        print("OK: %s is ok" % STATUS_CHECK)
+        print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == ">":
         if value > int(STATUS_CRIT):
@@ -153,7 +155,7 @@ def int_checker(value):
             print("WARNING: %s is > %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
         
-        print("OK: %s is ok" % STATUS_CHECK)
+        print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == ">=":
         if value >= int(STATUS_CRIT):
@@ -163,7 +165,7 @@ def int_checker(value):
             print("WARNING: %s is >= %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
 
-        print("OK: %s is ok" % STATUS_CHECK)
+        print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
 
 # help
