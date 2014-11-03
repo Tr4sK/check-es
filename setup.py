@@ -11,8 +11,8 @@ setup(
     author="Josten Landtroop",
     author_email="j@no-io.net",
     maintainer="Josten Landtroop",
-    download_url="https://bitbucket.org/josten/check_es",
-    url="https://bitbucket.org/josten/check_es",
+    download_url="https://bitbucket.org/josten/check-es",
+    url="https://bitbucket.org/josten/check-es",
     packages= find_packages(),
     scripts = ["check-es"],
     install_requires=["ipaddress"]
