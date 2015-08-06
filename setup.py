@@ -5,7 +5,7 @@ except ImportException:
 
 setup(
     name="check-es",
-    version="1.1.2",
+    version="1.1.3",
     license="GPLv3",
     description="Elasticsearch check tool for Nagios and ZenOSS",
     author="Josten Landtroop",
