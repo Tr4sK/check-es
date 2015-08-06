@@ -35,8 +35,8 @@ Switches
 
 Examples
 ========
-* `check-es -x status -w yellow -c red -c '=='` thrown a warning or critical alert if the cluster status is red or yellow.
-* `check-es -x number_of_nodes -w 2 -c 2 -c '<='` throws a critical alert if the amount of nodes is less than or equal to two.
+* `check-es -x status -w yellow -c red -C '=='` thrown a warning or critical alert if the cluster status is red or yellow.
+* `check-es -x number_of_nodes -w 2 -c 2 -C '<='` throws a critical alert if the amount of nodes is less than or equal to two.
 
 Contact
 =======
