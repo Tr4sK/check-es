@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# check-es.py (v1.1.1)
+# check-es.py (v1.1.2)
 #   Switches:
 #     -x (required): status; status, number_of_nodes, etc.
 #     -w (required): warning value
@@ -11,7 +11,7 @@
 #
 #    Dependencies: ipaddress
 #
-#    Copyright (C) 2014 Josten Landtroop
+#    Copyright (C) 2015 Josten Landtroop
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ def check_es_help():
     print("\t-p: Elasticsearch server HTTP port. Default 9200.")
     print("\t-h / --help: Prints out this help document.")
     print("Note: -x, -w, -c are required.")
-    print("Version: 1.1.1")
+    print("Version: 1.1.2")
 
 def init_data():
     try:
