@@ -61,7 +61,7 @@ def init_data():
       http_conn = httplib.HTTPConnection(IP_HOSTNAME, IP_PORT)
       http_conn.request("GET", "/_cluster/health")
       health_data = json.loads(http_conn.getresponse().read())
-    
+
       http_conn.request("GET", "/_nodes/%s/stats/jvm" % NODE_HOSTNAME)
       node_data = json.loads(http_conn.getresponse().read())
 
@@ -152,7 +152,7 @@ def int_checker(value):
         elif value > int(STATUS_WARN):
             print("WARNING: %s is > %s" % (STATUS_CHECK, STATUS_WARN))
             sys.exit(2)
-        
+
         print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == ">=":
@@ -202,7 +202,7 @@ else:
     try:
         if STATUS_CHECK == "status":
             x_val = str(tmp_args["-w"])
-            
+
             if tmp_args["-w"] != "red" and tmp_args["-w"] != "yellow":
                 print("Invalid warning for %s." % (STATUS_CHECK))
                 sys.exit(1)
@@ -263,7 +263,7 @@ else:
     try:
         if STATUS_CHECK == "status":
             x_val = str(tmp_args["-c"])
-    
+
             if tmp_args["-c"] != "red" and tmp_args["-c"] != "yellow":
                 print("Invalid critical for %s." % (STATUS_CHECK))
                 sys.exit(1)
@@ -312,7 +312,7 @@ else:
         elif STATUS_CHECK == "heap_used_percent":
             try:
                 x_val = int(tmp_args["-c"])
-                
+
                 if x_val < 0:
                     print("Negative values? Really?")
                     sys.exit(1)
@@ -323,7 +323,7 @@ else:
                 sys.exit(1)
     except Exception, e:
         print(e)
-    
+
 
     # setup -C
     if "-C" in tmp_args:
@@ -336,13 +336,13 @@ else:
     # setup -a
     if "-a" in tmp_args:
         bad_host_count = 0
-        
+
         # check if IP
         try:
             ipaddress.ip_address(tmp_args["-a"].decode("utf-8"))
         except ValueError:
             bad_host_count += 1
-        
+
         # check if host
         try:
             socket.gethostbyname(tmp_args["-a"])
@@ -352,7 +352,7 @@ else:
         if bad_host_count > 1:
             print("Invalid IP/hostname %s" % tmp_args["-a"])
             sys.exit(1)
-        
+
         IP_HOSTNAME = tmp_args["-a"]
         NODE_HOSTNAME = IP_HOSTNAME
 
@@ -360,7 +360,7 @@ else:
     if "-p" in tmp_args:
         try:
             int(tmp_args["-p"])
-            
+
             if int(tmp_args["-p"]) < 1 or int(tmp_args["-p"]) > 65535:
                 print("%s is not a valid port." % tmp_args["-p"])
                 sys.exit(1)
