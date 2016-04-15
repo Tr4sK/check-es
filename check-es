@@ -111,60 +111,60 @@ def check_status(value):
 def int_checker(value):
     if COMPARISON_OP == "==":
         if value == int(STATUS_CRIT):
-            print("CRITICAL: %s is == %s" % (STATUS_CHECK, STATUS_CRIT))
+            print("CRITICAL: %s is %s (== %s)" % (STATUS_CHECK, value, STATUS_CRIT))
             sys.exit(1)
         elif value == int(STATUS_WARN):
-            print("WARNING: %s is == %s" % (STATUS_CHECK, STATUS_WARN))
+            print("WARNING: %s is %s (== %s)" % (STATUS_CHECK, value, STATUS_WARN))
             sys.exit(2)
 
         print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == "!=":
         if value != int(STATUS_CRIT):
-            print("CRITICAL: %s is != %s" % (STATUS_CHECK, STATUS_CRIT))
+            print("CRITICAL: %s is %s (!= %s)" % (STATUS_CHECK, STATUS_CRIT, value))
             sys.exit(1)
         elif value != int(STATUS_WARN):
-            print("WARNING: %s is != %s" % (STATUS_CHECK, STATUS_WARN))
+            print("WARNING: %s is %s (!= %s)" % (STATUS_CHECK, STATUS_WARN, value))
             sys.exit(2)
 
         print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == "<=":
         if value <= int(STATUS_CRIT):
-            print("CRITICAL: %s is <= %s" % (STATUS_CHECK, STATUS_CRIT))
+            print("CRITICAL: %s is %s (<= %s)" % (STATUS_CHECK, value, STATUS_CRIT))
             sys.exit(1)
         elif value <= int(STATUS_WARN):
-            print("WARNING: %s is <= %s" % (STATUS_CHECK, STATUS_WARN))
+            print("WARNING: %s is %s (<= %s)" % (STATUS_CHECK, value, STATUS_WARN))
             sys.exit(2)
 
         print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == "<":
         if value < int(STATUS_CRIT):
-            print("CRITICAL: %s is < %s" % (STATUS_CHECK, STATUS_CRIT))
+            print("CRITICAL: %s is %s (< %s)" % (STATUS_CHECK, value, STATUS_CRIT))
             sys.exit(1)
         elif value < int(STATUS_WARN):
-            print("WARNING: %s is < %s" % (STATUS_CHECK, STATUS_WARN))
+            print("WARNING: %s is %s (< %s)" % (STATUS_CHECK, value, STATUS_WARN))
             sys.exit(2)
 
         print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == ">":
         if value > int(STATUS_CRIT):
-            print("CRITICAL: %s is > %s" % (STATUS_CHECK, STATUS_CRIT))
+            print("CRITICAL: %s is %s (> %s)" % (STATUS_CHECK, value, STATUS_CRIT))
             sys.exit(1)
         elif value > int(STATUS_WARN):
-            print("WARNING: %s is > %s" % (STATUS_CHECK, STATUS_WARN))
+            print("WARNING: %s is %s (> %s)" % (STATUS_CHECK, value, STATUS_WARN))
             sys.exit(2)
 
         print("OK: %s is ok: %s" % (STATUS_CHECK,value))
         sys.exit(0)
     elif COMPARISON_OP == ">=":
         if value >= int(STATUS_CRIT):
-            print("CRITICAL: %s is >= %s" % (STATUS_CHECK, STATUS_CRIT))
+            print("CRITICAL: %s is %s (>= %s)" % (STATUS_CHECK, value, STATUS_CRIT))
             sys.exit(1)
         elif value >= int(STATUS_WARN):
-            print("WARNING: %s is >= %s" % (STATUS_CHECK, STATUS_WARN))
+            print("WARNING: %s is %s (>= %s)" % (STATUS_CHECK, value, STATUS_WARN))
             sys.exit(2)
 
         print("OK: %s is ok: %s" % (STATUS_CHECK,value))
