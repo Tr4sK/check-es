@@ -5,7 +5,7 @@ Nagios check for Elasticsearch; should work with any monitoring tools that suppo
 GPLv3
 
 ## Author
-Josten Landtroop
+ 
 
 ## Features
 * Check the cluster "color" status; red, yellow.
@@ -32,4 +32,3 @@ Josten Landtroop
 * `check-es -x number_of_nodes -w 2 -c 2 -C '<='` throws a critical alert if the amount of nodes is less than or equal to two.
 
 ## Contact
-* j [at] no-io [dot] net
